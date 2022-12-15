@@ -5,3 +5,8 @@ How to use:
 1. Open acmd2smashscript.py
 2. Navigate to your mod.rs
 3. Check your processed mod.rs that appears in the folder
+
+How to use in command line:
+1. type in `py acmd2smashscript.py [input_file] [output_file]`
+(both are optional, default for input is to ask you, default for output is mod.rs in the acmd2smashscript's home folder)
+2. Check your processed mod.rs that appears in your output location
