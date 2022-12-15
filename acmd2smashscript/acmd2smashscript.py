@@ -1,13 +1,33 @@
 import os
+import sys
 
 print("make sure all dependencies are at the top! (Like smash::phx::Hash40)")
 
 #uncomment this
 import tkinter as tk
 from tkinter import filedialog
+
 root = tk.Tk()
 root.withdraw()
-input_file = filedialog.askopenfilename()
+if len(sys.argv) > 1:
+  input_file = str(sys.argv[1])
+  if len(sys.argv) > 2:
+    output_file = str(sys.argv[2])
+  else:
+    output_file = "mod.rs"
+
+else:
+  input_file = filedialog.askopenfilename()
+"""
+try:
+    args = sys.argv 
+    args.pop(0)
+    input_file = "".join(args)
+    with open(input_file) as f:
+      print("")
+    f.close()
+except Exception:
+"""
 
 #comment this
 #input_file = "test.rs"
@@ -51,9 +71,13 @@ for f in sv_animc:
 
 def inputter():
   global i
-  with open(input_file) as f:
-    i = f.readlines()
-  f.close()
+  try:
+    with open(input_file) as f:
+      i = f.readlines()
+    f.close()
+  except FileNotFoundError:
+    input("File not found!")
+    raise
 
 def acmd2smashscript():
   global i
@@ -108,6 +132,8 @@ def acmd2smashscript():
           w_f = w_f.replace(" "+i, " /*"+f+"*/ ")
           w_f = w_f.replace(","+i, ",/*"+f+"*/ ")
       w_f = w_f.replace("sv_module_access::damage(", "damage!(fighter, ")
+      w_f = w_f.replace("sv_module_access::shield(", "shield!(fighter, ")
+      w_f = w_f.replace("sv_module_access::grab(", "grab!(fighter, ")
       banlist = ["sv_kinetic_energy", "sv_math", "sv_module_access", "sv_system", "sv_animcmd"]
       is_illegal = False
       for x in banlist:
@@ -167,7 +193,7 @@ def acmd2smashscript():
         if w_f[new] != "N":
           w_f = w_f.replace("/*Z2*/ ", "/*Z2*/ Some(")
           w_f = w_f.replace(", /*Hitlag*/", "), /*Hitlag*/")
-      if "    let lua_state = fighter.lua_state_agent;"  in w_f:
+      if "    	let lua_state = fighter.lua_state_agent;"  in w_f:
         w_f = w_f.replace("    let lua_state = fighter.lua_state_agent;\n", "      let lua_state = fighter.lua_state_agent;\n")
         w_f = w_f.replace("    let lua_state = fighter.lua_state_agent;", "  let lua_state = fighter.lua_state_agent;")
     o.append(w_f)
@@ -176,9 +202,9 @@ inputter()
 acmd2smashscript()
 
 
-if os.path.exists("mod.rs"):
-  os.remove("mod.rs")
-with open('mod.rs', 'a') as f:
+if os.path.exists(output_file):
+  os.remove(output_file)
+with open(output_file, 'a') as f:
   for x in o:
     f.write(x)
 f.close()

@@ -46,3 +46,5 @@ ID5=
 ShieldstunMul=
 Frames=
 CollisionPart=
+Status=
+DamageThreshold=
