@@ -193,8 +193,8 @@ def acmd2smashscript():
         if w_f[new] != "N":
           w_f = w_f.replace("/*Z2*/ ", "/*Z2*/ Some(")
           w_f = w_f.replace(", /*Hitlag*/", "), /*Hitlag*/")
-      if "    	let lua_state = fighter.lua_state_agent;"  in w_f:
-        w_f = w_f.replace("    let lua_state = fighter.lua_state_agent;\n", "      let lua_state = fighter.lua_state_agent;\n")
+      if "let lua_state = fighter.lua_state_agent;"  in w_f:
+        w_f = w_f.replace("    let lua_state = fighter.lua_state_agent;\n", "          let lua_state = fighter.lua_state_agent;\n")
         w_f = w_f.replace("    let lua_state = fighter.lua_state_agent;", "  let lua_state = fighter.lua_state_agent;")
     o.append(w_f)
 
