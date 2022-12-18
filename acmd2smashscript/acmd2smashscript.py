@@ -15,9 +15,9 @@ if len(sys.argv) > 1:
     output_file = str(sys.argv[2])
   else:
     output_file = "mod.rs"
-
 else:
   input_file = filedialog.askopenfilename()
+  output_file = "mod.rs"
 """
 try:
     args = sys.argv 
