@@ -48,3 +48,4 @@ Frames=
 CollisionPart=
 Status=
 DamageThreshold=
+CanCatchRebound=

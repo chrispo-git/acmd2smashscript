@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 print("make sure all dependencies are at the top! (Like smash::phx::Hash40)")
 
@@ -7,9 +8,20 @@ print("make sure all dependencies are at the top! (Like smash::phx::Hash40)")
 import tkinter as tk
 from tkinter import filedialog
 
+help_me = """
+-ACMD2SMASHSCRIPT-
+how to use in command line:
+py acmd2smashscript.py [input file] [output file]
+or you can drag your mod.rs onto acmd2smashscript
+"""
+
 root = tk.Tk()
 root.withdraw()
 if len(sys.argv) > 1:
+  if str(sys.argv[1]) in ["-h", "--help"]:
+    print(help_me)
+    time.sleep(2.5)
+    sys.exit()
   input_file = str(sys.argv[1])
   if len(sys.argv) > 2:
     output_file = str(sys.argv[2])
