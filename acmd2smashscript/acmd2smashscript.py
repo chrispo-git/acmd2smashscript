@@ -137,6 +137,7 @@ def acmd2smashscript():
             w_f = w_f.replace(")",".0)")
           w_f = w_f.replace("wait(","wait(fighter.lua_state_agent, ")
           w_f = w_f.replace("Frames=","")
+          w_f = w_f.replace("frames=","")
       if "=" in w_f:
         for i in replace:
           f = i.replace("=", "")
@@ -163,6 +164,12 @@ def acmd2smashscript():
         if len(w_f) > 1:
           if w_f[-2] == ")":
             w_f = w_f.replace("\n", ";\n")
+      if "for(" in w_f and "Iterations" in w_f:
+        iter = w_f.split("for(")
+        iterations = iter[1]
+        indent = iter[0]
+        iterations = iterations.replace(" Iterations){\n", "")
+        w_f = indent + "for _ in 0.." + iterations + " {\n"
       for x in alphabet:
         if x in w_f:
             comma = ","+x
