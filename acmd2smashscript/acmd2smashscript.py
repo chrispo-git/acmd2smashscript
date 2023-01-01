@@ -108,6 +108,8 @@ def acmd2smashscript():
       is_replacing = False
     if "#[fighter_frame_callback" in f:
       is_replacing = False
+    if "#[status_script" in f:
+      is_replacing = False
     if "pub fn install() {" in f:
       is_replacing = False
     if is_replacing == True:
