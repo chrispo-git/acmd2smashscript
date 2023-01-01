@@ -117,7 +117,12 @@ def acmd2smashscript():
       for x in sv_animcd:
         is_replace = False
         if is_replace == False:
-          if x in w_f and "macros::" not in w_f:
+          check_command = w_f.replace("	", "")
+          try:
+            is_entire_command = check_command[0] == x[0] and check_command[len(x)] == "(" and check_command[len(x)-1] == x[-1]
+          except IndexError:
+            continue
+          if x in w_f and "macros::" not in w_f and is_entire_command:
             w_f = w_f.replace(x+"(", "macros::"+x+"(fighter, ", 1)
             is_replace = True
       w_f = w_f.replace("LUA_VOID", "None")
