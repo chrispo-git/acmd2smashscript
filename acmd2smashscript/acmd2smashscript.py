@@ -95,7 +95,8 @@ def acmd2smashscript():
   global i
   global o
   is_replacing = False
-  o.append("use smash::app::sv_animcmd::*;\n")
+  if "use smash::app::sv_animcmd::*;\n" not in i:
+    o.append("use smash::app::sv_animcmd::*;\n")
   for f in i:
     w_f = f
     if "(fighter: &mut L2CAgentBase) {" in f:
