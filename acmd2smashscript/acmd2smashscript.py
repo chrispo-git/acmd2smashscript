@@ -117,7 +117,7 @@ def acmd2smashscript():
       for x in sv_animcd:
         is_replace = False
         if is_replace == False:
-          if x in w_f:
+          if x in w_f and "macros::" not in w_f:
             w_f = w_f.replace(x+"(", "macros::"+x+"(fighter, ", 1)
             is_replace = True
       w_f = w_f.replace("LUA_VOID", "None")
@@ -130,7 +130,7 @@ def acmd2smashscript():
           w_f = w_f.replace("if(is_excute) {", "if macros::is_excute(fighter) {")
       if "ATTACK(" in w_f and "macros::ATTACK(fighter, " not in w_f:
           w_f = w_f.replace("ATTACK(","macros::ATTACK(fighter, ")
-      if "frame(" in w_f and "frame(fighter.lua_state_agent, " not in w_f and "_frame(" not in w_f:
+      if "frame(" in w_f and "frame(fighter.lua_state_agent, " not in w_f and "_frame(" not in w_f and "lua_state" not in w_f:
           if "." not in w_f:
             w_f = w_f.replace(")",".0)")
           w_f = w_f.replace("frame(","frame(fighter.lua_state_agent, ")
