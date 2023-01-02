@@ -9,3 +9,7 @@ How to use in command line:
 1. type in `py acmd2smashscript.py [input_file] [output_file]`
 (both are optional, default for input is to ask you, default for output is mod.rs in the acmd2smashscript's home folder)
 2. Check your processed mod.rs that appears in your output location
+
+How to use the batch version:
+1. Click batch_a2s.py
+2. Select the folder where all your .rs files are
