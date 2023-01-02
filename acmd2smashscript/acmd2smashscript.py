@@ -95,12 +95,24 @@ def acmd2smashscript():
   global i
   global o
   is_replacing = False
+  acmd_count = 0
   if "use smash::app::sv_animcmd::*;\n" not in i:
     o.append("use smash::app::sv_animcmd::*;\n")
+  if "use smash::phx::Hash40;\n" not in i:
+    o.append("use smash::phx::Hash40;\n")
+  if "use smash_script::*;\n" not in i:
+    o.append("use smash_script::*;\n")
+  if "use smash::hash40;\n" not in i:
+    o.append("use smash::hash40;\n")
+  if "use smash::lib::lua_const::*;\n" not in i:
+    o.append("use smash::lib::lua_const::*;\n")
+  if "use smash::app::lua_bind::*;\n" not in i:
+    o.append("use smash::app::lua_bind::*;\n")
   for f in i:
     w_f = f
-    if "(fighter: &mut L2CAgentBase) {" in f:
+    if "acmd!(" in f:
       is_replacing = True
+      acmd_count += 1
     if "(fighter: &mut L2CFighterCommon) {" in f:
       is_replacing = False
     if "(fighter_base : &mut L2CFighterBase) {" in f:
@@ -161,7 +173,7 @@ def acmd2smashscript():
         if x in w_f:
             is_illegal = True
             break
-      if "fighter" not in w_f and "::" in w_f and is_illegal == False:
+      if "fighter" not in w_f and "::" in w_f and is_illegal == False and "module_accessor" not in w_f and "boma" not in w_f:
         if "()" not in w_f:
           w_f = w_f.replace("(", "(fighter.module_accessor, ", 1)
         else:
@@ -176,7 +188,9 @@ def acmd2smashscript():
         iter = w_f.split("for(")
         iterations = iter[1]
         indent = iter[0]
-        iterations = iterations.replace(" Iterations){\n", "")
+        iterations = iterations.replace("Iterations", "")
+        iterations = iterations.replace(")", "")
+        iterations = iterations.replace("{", "")
         w_f = indent + "for _ in 0.." + iterations + " {\n"
       for x in alphabet:
         if x in w_f:
@@ -201,10 +215,18 @@ def acmd2smashscript():
         w_f = w_f.replace("acmd!(lua_state, {\n", "")
         w_f = w_f.replace("acmd!(lua_state, {", "")
         w_f = w_f.replace(" ", "")
+      if "acmd!({"  in w_f:
+        w_f = w_f.replace("acmd!({\n", "")
+        w_f = w_f.replace("acmd!({", "")
+        w_f = w_f.replace(" ", "")
       if "});"  in w_f:
         w_f = w_f.replace("});\n", "")
         w_f = w_f.replace("});", "")
         w_f = w_f.replace(" ", "")
+        acmd_count -= 1
+        if acmd_count <= 0:
+          acmd_count = 0
+          is_replacing = False
       if w_f.find("/*X2*/") != -1:
         new = w_f.find("/*X2*/") + 7
         if w_f[new] != "N":
